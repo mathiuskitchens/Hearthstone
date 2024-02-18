@@ -1,40 +1,38 @@
-import React, { useEffect } from 'react'
-import ReactDOM from 'react-dom/client'
-import App from './App.jsx'
-import Root from './routes/root.jsx'
-import ErrorPage from './error-page.jsx'
-import {
-  createBrowserRouter, 
-  RouterProvider
-} from "react-router-dom"
-import './index.css'
-import Login from './routes/Login.jsx'
-import Browse from './routes/Browse.jsx'
-import BrowseSkeleton from './components/BrowseSkeleton.jsx'
+import React, { useEffect } from "react";
+import ReactDOM from "react-dom/client";
+import App from "./App.jsx";
+import Root from "./routes/root.jsx";
+import ErrorPage from "./error-page.jsx";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import Root from "./routes/root.jsx";
+import ErrorPage from "./error-page.jsx";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import "./index.css";
+import Login from "./routes/Login.jsx";
+import Browse from "./routes/Browse.jsx";
+import BrowseSkeleton from "./components/BrowseSkeleton.jsx";
 
 const router = createBrowserRouter([
   {
-    path: '/',
+    path: "/",
     element: <Root />,
-    errorElement: <ErrorPage />
+    errorElement: <ErrorPage />,
   },
   {
-    path: '/login',
+    path: "/login",
     element: <Login />,
-    errorElement: <ErrorPage />
-  }, 
+    errorElement: <ErrorPage />,
+  },
   {
-    path: '/browse',
+    path: "/browse",
     element: <Browse />,
     errorElement: <ErrorPage />,
-    fallback: <BrowseSkeleton />
-  }
+    fallback: <BrowseSkeleton />,
+  },
+]);
 
-
-])
-
-ReactDOM.createRoot(document.getElementById('root')).render(
+ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <RouterProvider router={router} />
-  </React.StrictMode>,
-)
+  </React.StrictMode>
+);

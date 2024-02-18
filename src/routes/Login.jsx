@@ -1,10 +1,12 @@
 import hearthstone_logo from '../images/hearthstone_logo.png'
 import { Link } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
 const Login = () => {
     return (
         <>
      
+      <div className="hero min-h-screen w-screen bg-base-200">
       <div className="hero min-h-screen w-screen bg-base-200">
         
     <div className="hero-content flex-col lg:flex-row-reverse">
