@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import ReactDOM from 'react-dom/client'
 import App from './App.jsx'
 import Root from './routes/root.jsx'
@@ -10,6 +10,7 @@ import {
 import './index.css'
 import Login from './routes/Login.jsx'
 import Browse from './routes/Browse.jsx'
+import BrowseSkeleton from './components/BrowseSkeleton.jsx'
 
 const router = createBrowserRouter([
   {
@@ -25,7 +26,8 @@ const router = createBrowserRouter([
   {
     path: '/browse',
     element: <Browse />,
-    errorElement: <ErrorPage />
+    errorElement: <ErrorPage />,
+    fallback: <BrowseSkeleton />
   }
 
 
