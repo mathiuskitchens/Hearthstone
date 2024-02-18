@@ -1,11 +1,13 @@
 
 import './App.css'
-import Login from './pages/Login'
+import Login from './routes/Login'
+import Browse from './routes/Browse'
 
 function App() {
 
   return (
-    <Login />
+
+    <Browse />
   )
 }
 
