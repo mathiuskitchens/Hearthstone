@@ -1,10 +1,13 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 const Navbar = () => {
   return (
     <div className="navbar bg-base-100 fixed top-0 left-0 z-50">
       <div className="flex-1">
-        <a className="btn btn-ghost text-xl">HS DeckMaster</a>
+        <Link to={`../Login`} className="btn btn-ghost text-xl">
+          HS DeckMaster
+        </Link>
       </div>
       <div className="flex-none gap-2">
         <div className="form-control">
@@ -32,10 +35,10 @@ const Navbar = () => {
             className="mt-3 z-[1] p-2 shadow menu menu-sm dropdown-content bg-base-100 rounded-box w-52"
           >
             <li>
-              <a className="justify-between">
+              <Link to={`../profile/1`} className="justify-between">
                 Profile
                 <span className="badge">New</span>
-              </a>
+              </Link>
             </li>
             <li>
               <a>Settings</a>

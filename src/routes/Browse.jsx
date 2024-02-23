@@ -8,18 +8,25 @@ const Browse = () => {
   const [selectedCard, setSelectedCard] = useState({});
   const [isLoading, setIsLoading] = useState(true);
   const [page, setPage] = useState(1);
+  const [expansion, setExpansion] = useState("standard");
 
   useEffect(() => {
     fetchCards();
-  }, [page]);
+  }, [page, expansion]);
 
   const fetchCards = async () => {
     try {
-      if (localStorage.getItem("token") === null) {
+      if (localStorage.getItem("hstoken") === null) {
+        console.log("No HStoken found, fetching new token");
         const token = await getNewToken();
-        localStorage.setItem("token", token.data.access_token);
+        console.log(token);
+        localStorage.setItem("hstoken", token);
       } else {
-        const c = await getAllCards(localStorage.getItem("token"), page);
+        const c = await getAllCards(
+          localStorage.getItem("hstoken"),
+          page,
+          expansion
+        );
         setCards(c.data.cards);
         console.log(c.data.cards);
         setIsLoading(false);
@@ -38,10 +45,17 @@ const Browse = () => {
         </h1>
         <section className="flex justify-between align-middle flex-1">
           <label id="setName" className="form-control w-full max-w-xs">
-            <select className="select select-bordered select-md w-48 mx-8 my-auto">
-              <option disabled selected>
+            <select
+              defaultValue="description"
+              className="select select-bordered select-md w-48 mx-8 my-auto"
+              onChange={(e) => {
+                setExpansion(e.target.value);
+              }}
+            >
+              <option disabled value="description">
                 Filter by Set
               </option>
+              <option value="standard">All Standard</option>
               <option value="showdown-in-the-badlands">
                 Showdown in the Badlands
               </option>
@@ -99,17 +113,42 @@ const Browse = () => {
                       className="modal modal-bottom sm:modal-middle"
                     >
                       <div className="modal-box">
-                        <h2 className="text-center">{selectedCard.name}</h2>
+                        <form method="dialog">
+                          <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">
+                            ✕
+                          </button>
+                        </form>
+                        <h2 className="text-center text-3xl">
+                          {selectedCard.name}
+                        </h2>
                         <img
                           src={selectedCard.image}
                           alt={selectedCard.name}
-                          className="w-56 mx-auto"
+                          className="w-3/4 mx-auto"
                         />
-                        <p className="py-4 mx-16">{selectedCard.flavorText}</p>
+                        <p className="py-4 mx-16 text-center italic">
+                          {selectedCard.flavorText}
+                        </p>
                         <div className="modal-action">
-                          <form method="dialog">
-                            <button className="btn">Close</button>
-                          </form>
+                          <div class="buttons-div" className="flex gap-2">
+                            <button className="btn btn-active ring-0 border-none">
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                className="h-6 w-6"
+                                fill="none"
+                                // change fill later when has DB
+                                viewBox="0 0 24 24"
+                                stroke="currentColor"
+                              >
+                                <path
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                  strokeWidth="2"
+                                  d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
+                                />
+                              </svg>
+                            </button>
+                          </div>
                         </div>
                       </div>
                     </dialog>

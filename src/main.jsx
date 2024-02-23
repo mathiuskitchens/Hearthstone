@@ -8,6 +8,7 @@ import "./index.css";
 import Login from "./routes/Login.jsx";
 import Browse from "./routes/Browse.jsx";
 import BrowseSkeleton from "./components/BrowseSkeleton.jsx";
+import Profile from "./routes/Profile.jsx";
 
 const router = createBrowserRouter([
   {
@@ -25,6 +26,11 @@ const router = createBrowserRouter([
     element: <Browse />,
     errorElement: <ErrorPage />,
     fallback: <BrowseSkeleton />,
+  },
+  {
+    path: "/profile/:id",
+    element: <Profile />,
+    errorElement: <ErrorPage />,
   },
 ]);
 

@@ -31,23 +31,24 @@ export async function getNewToken() {
   }
 }
 
-export async function getAllCards(token, page) {
+export async function getAllCards(token, page = 1, expansion = "standard") {
   try {
     const response = await axios({
       method: "get",
-      url: `https://us.api.blizzard.com/hearthstone/cards/?locale=en_US&set=standard&page=${page}`,
+      url: `https://us.api.blizzard.com/hearthstone/cards/?locale=en_US&set=${expansion}&page=${page}`,
       headers: {
         Authorization: `Bearer ${token}`,
       },
     });
     return response;
   } catch (error) {
-    if (error.resposne && error.response.status === 401) {
+    if (error.response && error.response.status === 401) {
       console.log("Unauthorized, refreshing token...");
-      const newToken = getNewToken();
-      localStorage.setItem("token", newToken);
+      const newToken = await getNewToken();
+      localStorage.setItem("hstoken", newToken);
       console.log("New token: ", newToken);
-      await getAllCards(newToken);
+      const response = await getAllCards(newToken);
+      return response;
     }
   }
 }
