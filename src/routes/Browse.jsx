@@ -159,7 +159,7 @@ const Browse = () => {
             })}
           </div>
         )}
-        <div className="join my-4 block mx-auto">
+        <div className="join block mx-auto mb-20">
           <button
             onClick={() => {
               if (page === 1) {

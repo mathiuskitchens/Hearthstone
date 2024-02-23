@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 const Navbar = () => {
   return (
-    <div className="navbar bg-base-100 fixed top-0 left-0 z-50">
+    <div className="navbar bg-base-100 fixed top-0 left-0 z-50 w-full">
       <div className="flex-1">
         <Link to={`../Login`} className="btn btn-ghost text-xl">
           HS DeckMaster
