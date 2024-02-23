@@ -40,7 +40,7 @@ const Browse = () => {
   return (
     <>
       <Navbar />
-      <div className="container grid">
+      <div className="container">
         <h1 className="text-4xl font-bold text-center my-4 mx-8 mt-20">
           Browse Cards
         </h1>
@@ -159,12 +159,13 @@ const Browse = () => {
             })}
           </div>
         )}
-        <div className="join block mx-auto mb-20">
+        <div className="join block mb-20 mt-10 text-center">
           <button
             onClick={() => {
               if (page === 1) {
                 return;
               } else {
+                window.scrollTo({ top: 0, behavior: "smooth" });
                 setIsLoading(true);
                 setPage(page - 1);
               }
@@ -176,6 +177,7 @@ const Browse = () => {
           <button className="join-item btn btn-square">{page}</button>
           <button
             onClick={() => {
+              window.scrollTo({ top: 0, behavior: "smooth" });
               setPage(page + 1);
               setIsLoading(true);
             }}
