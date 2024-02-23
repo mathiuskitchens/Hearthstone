@@ -9,41 +9,42 @@ const Browse = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [page, setPage] = useState(1);
   const [expansion, setExpansion] = useState("standard");
+  const [activeToken, setActiveToken] = useState(
+    localStorage.getItem("hstoken")
+  );
 
   useEffect(() => {
     fetchCards();
   }, [page, expansion]);
 
   const fetchCards = async () => {
+    await tokenCheck();
+    setTimeout(() => {}, 1000);
     try {
-      if (localStorage.getItem("hstoken") === null) {
-        console.log("No HStoken found, fetching new token");
-        const token = await getNewToken();
-        console.log(token);
-        localStorage.setItem("hstoken", token);
-      } else {
-        const c = await getAllCards(
-          localStorage.getItem("hstoken"),
-          page,
-          expansion
-        );
-        setCards(c.data.cards);
-        console.log(c.data.cards);
-        setIsLoading(false);
-      }
+      const c = await getAllCards(activeToken, page, expansion);
+      setCards(c.data.cards);
+      setIsLoading(false);
     } catch (error) {
       console.log("Error: ", error);
+    }
+  };
+
+  const tokenCheck = async () => {
+    if (localStorage.getItem("hstoken") === null) {
+      console.log("tokenCheck failed, getting new token");
+      const token = await getNewToken();
+      setActiveToken(token);
     }
   };
 
   return (
     <>
       <Navbar />
-      <div className="container">
+      <div className="container grid">
         <h1 className="text-4xl font-bold text-center my-4 mx-8 mt-20">
           Browse Cards
         </h1>
-        <section className="flex justify-between align-middle flex-1">
+        <section className="flex justify-around md:justify-between align-middle">
           <label id="setName" className="form-control w-full max-w-xs">
             <select
               defaultValue="description"
@@ -66,7 +67,7 @@ const Browse = () => {
           <div className="join mx-8 my-4">
             <button
               onClick={() => {
-                if (page == 1) {
+                if (page === 1) {
                   return;
                 } else {
                   setIsLoading(true);
@@ -100,7 +101,7 @@ const Browse = () => {
                     <img
                       src={card.image}
                       alt={card.name}
-                      className=" w-56 border-transparent hover:scale-105 hover:ring-1 hover:cursor-pointer ring-yellow-500 ring-opacity-50 ring-inset hover:ring-opacity-100 transition-all duration-300 rounded-3xl sm:w-64"
+                      className=" w-64 md:w-56 border-transparent hover:scale-105 hover:ring-1 hover:cursor-pointer ring-yellow-500 ring-opacity-50 ring-inset hover:ring-opacity-100 transition-all duration-300 rounded-3xl sm:w-64"
                       onClick={() => {
                         console.log(card);
                         setSelectedCard(card);
@@ -114,7 +115,7 @@ const Browse = () => {
                     >
                       <div className="modal-box">
                         <form method="dialog">
-                          <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">
+                          <button className="btn btn-sm btn-circle btn-ghost absolute right-4 top-4">
                             ✕
                           </button>
                         </form>
@@ -158,6 +159,31 @@ const Browse = () => {
             })}
           </div>
         )}
+        <div className="join my-4 block mx-auto">
+          <button
+            onClick={() => {
+              if (page === 1) {
+                return;
+              } else {
+                setIsLoading(true);
+                setPage(page - 1);
+              }
+            }}
+            className="join-item btn btn-square"
+          >
+            «
+          </button>
+          <button className="join-item btn btn-square">{page}</button>
+          <button
+            onClick={() => {
+              setPage(page + 1);
+              setIsLoading(true);
+            }}
+            className="join-item btn"
+          >
+            »
+          </button>
+        </div>
       </div>
     </>
   );
