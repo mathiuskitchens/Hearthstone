@@ -31,11 +31,17 @@ export async function getNewToken() {
   }
 }
 
-export async function getAllCards(token, page = 1, expansion = "standard") {
+export async function getAllCards(
+  token,
+  page = 1,
+  expansion = "standard",
+  classType = "all",
+  rarity = "all"
+) {
   try {
     const response = await axios({
       method: "get",
-      url: `https://us.api.blizzard.com/hearthstone/cards/?locale=en_US&set=${expansion}&page=${page}`,
+      url: `https://us.api.blizzard.com/hearthstone/cards/?locale=en_US&set=${expansion}&page=${page}&class=${classType}&rarity=${rarity}`,
       headers: {
         Authorization: `Bearer ${token}`,
       },

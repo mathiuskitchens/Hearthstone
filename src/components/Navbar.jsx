@@ -3,13 +3,25 @@ import { Link } from "react-router-dom";
 
 const Navbar = () => {
   return (
-    <div className="navbar bg-base-100 fixed top-0 left-0 z-50 w-full">
-      <div className="flex-1">
+    <div className="navbar bg-base-100 fixed top-0 left-0 z-50 w-full flex justify-between">
+      <div className="">
         <Link to={`../Login`} className="btn btn-ghost text-xl">
           HS DeckMaster
         </Link>
       </div>
-      <div className="flex-none gap-2">
+      <section className="flex">
+        <div>
+          <Link to={`../Browse`} className="hidden btn btn-ghost text-md">
+            Browse
+          </Link>
+        </div>
+        <div>
+          <Link to={`../Browse`} className="hidden btn btn-ghost text-md">
+            Search by Code
+          </Link>
+        </div>
+      </section>
+      <div className="flex-end gap-2">
         <div className="form-control">
           <input
             type="text"

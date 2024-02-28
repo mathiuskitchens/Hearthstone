@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { getNewToken, getAllCards } from "../utils/blizzardRequests";
 import BrowseSkeleton from "../components/BrowseSkeleton";
 import Navbar from "../components/Navbar";
+import DeckInProgress from "../components/DeckInProgress";
 
 const Browse = () => {
   const [cards, setCards] = useState([]);
@@ -9,19 +10,44 @@ const Browse = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [page, setPage] = useState(1);
   const [expansion, setExpansion] = useState("standard");
+  const [classType, setClassType] = useState("all");
+  const [rarity, setRarity] = useState("all");
   const [activeToken, setActiveToken] = useState(
     localStorage.getItem("hstoken")
   );
+  const [deck, setDeck] = useState([]);
+  const [cardLimitError, setCardLimitError] = useState(false);
+
+  const classNames = [
+    "Demon Hunter",
+    "Druid",
+    "Hunter",
+    "Mage",
+    "Paladin",
+    "Priest",
+    "Rogue",
+    "Shaman",
+    "Warlock",
+    "Warrior",
+  ];
+
+  const rarities = ["Common", "Rare", "Epic", "Legendary"];
 
   useEffect(() => {
     fetchCards();
-  }, [page, expansion]);
+  }, [page, expansion, classType, rarity]);
 
   const fetchCards = async () => {
     await tokenCheck();
     setTimeout(() => {}, 1000);
     try {
-      const c = await getAllCards(activeToken, page, expansion);
+      const c = await getAllCards(
+        activeToken,
+        page,
+        expansion,
+        classType,
+        rarity
+      );
       setCards(c.data.cards);
       setIsLoading(false);
     } catch (error) {
@@ -37,15 +63,31 @@ const Browse = () => {
     }
   };
 
+  const checkCardLimit = (currentCard) => {
+    let cardCount = deck.filter((card) => card.id === currentCard.id).length;
+    console.log("card count: ", cardCount);
+    if (cardCount < 2) {
+      return false;
+    } else {
+      console.log("card limit reached");
+      return true;
+    }
+  };
+
   return (
     <>
       <Navbar />
+
       <div className="container">
         <h1 className="text-4xl font-bold text-center my-4 mx-8 mt-20">
           Browse Cards
         </h1>
-        <section className="flex justify-around md:justify-between align-middle">
-          <label id="setName" className="form-control w-full max-w-xs">
+        <DeckInProgress deck={deck} />
+        <section
+          id="filters"
+          className="flex flex-wrap justify-around md:justify-between align-middle"
+        >
+          <label id="setName" className="form-control  py-2">
             <select
               defaultValue="description"
               className="select select-bordered select-md w-48 mx-8 my-auto"
@@ -64,32 +106,77 @@ const Browse = () => {
               <option value="festival-of-legends">Festival of Legends</option>
             </select>
           </label>
-          <div className="join mx-8 my-4">
-            <button
-              onClick={() => {
-                if (page === 1) {
-                  return;
-                } else {
-                  setIsLoading(true);
-                  setPage(page - 1);
-                }
+
+          <label id="classType" className="form-control max-w-xs py-2">
+            <select
+              defaultValue="description"
+              className="select select-bordered select-md w-48 mx-8 my-auto"
+              onChange={(e) => {
+                setClassType(e.target.value);
               }}
-              className="join-item btn btn-square"
             >
-              «
-            </button>
-            <button className="join-item btn btn-square">{page}</button>
-            <button
-              onClick={() => {
-                setPage(page + 1);
-                setIsLoading(true);
+              <option disabled value="description">
+                Filter by Class
+              </option>
+              <option value="all">All Classes</option>
+              {classNames.map((c, index) => {
+                return (
+                  <option key={index} value={c.toLowerCase()}>
+                    {c}
+                  </option>
+                );
+              })}
+            </select>
+          </label>
+
+          <label id="rarity" className="form-control max-w-xs py-2">
+            <select
+              defaultValue="description"
+              className="select select-bordered select-md w-48 mx-8 my-auto"
+              onChange={(e) => {
+                setRarity(e.target.value);
               }}
-              className="join-item btn"
             >
-              »
-            </button>
-          </div>
+              <option disabled value="description">
+                Filter by Rarity
+              </option>
+              <option value="all">All</option>
+              {rarities.map((c, index) => {
+                return (
+                  <option key={index} value={c.toLowerCase()}>
+                    {c}
+                  </option>
+                );
+              })}
+            </select>
+          </label>
         </section>
+
+        <div className="join mx-8 my-4 block text-center lg:text-right">
+          <button
+            onClick={() => {
+              if (page === 1) {
+                return;
+              } else {
+                setIsLoading(true);
+                setPage(page - 1);
+              }
+            }}
+            className="join-item btn btn-square"
+          >
+            «
+          </button>
+          <button className="join-item btn btn-square">{page}</button>
+          <button
+            onClick={() => {
+              setPage(page + 1);
+              setIsLoading(true);
+            }}
+            className="join-item btn"
+          >
+            »
+          </button>
+        </div>
         {isLoading ? (
           <BrowseSkeleton />
         ) : (
@@ -132,7 +219,28 @@ const Browse = () => {
                         </p>
                         <div className="modal-action">
                           <div class="buttons-div" className="flex gap-2">
-                            <button className="btn btn-active ring-0 border-none">
+                            <button
+                              disabled={checkCardLimit(selectedCard)}
+                              className="btn btn-active ring-0 border-none disabled"
+                              onClick={() => {
+                                // need function to check for duplicates based on card rarity and current number in deck
+                                // also need function to limit deck to 30 cards
+                                setDeck([...deck, selectedCard]);
+                                console.log(deck);
+                              }}
+                            >
+                              {checkCardLimit(selectedCard)
+                                ? "Deck Limit Reached"
+                                : "Add to Deck"}
+                            </button>
+                            <button
+                              className="btn btn-active ring-0 border-none"
+                              onClick={() => {
+                                // also need function to limit deck to 30 cards
+                                // setDeck([...deck, selectedCard]);
+                                console.log(deck);
+                              }}
+                            >
                               <svg
                                 xmlns="http://www.w3.org/2000/svg"
                                 className="h-6 w-6"
@@ -187,6 +295,26 @@ const Browse = () => {
           </button>
         </div>
       </div>
+      {cardLimitError && (
+        <>
+          <div role="alert" className="alert alert-error">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="stroke-current shrink-0 h-6 w-6"
+              fill="none"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
+              />
+            </svg>
+            <span>Error! Task failed successfully.</span>
+          </div>
+        </>
+      )}
     </>
   );
 };
