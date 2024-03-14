@@ -45,15 +45,18 @@ const DeckInProgress = ({ deck }) => {
                   return (
                     <li
                       key={index}
-                      className=""
+                      className="flex"
                       onClick={() => {
                         setSelectedCard(card);
                         document.getElementById("card-details").showModal();
                       }}
                     >
-                      <p className="rounded bg-base-300 py-2 px-4 my-0.5 h-8">
-                        {card.name}
-                      </p>
+                      <span className="rounded bg-base-300 py-1 px-4 my-0.5 h-8">
+                        <p className="border p-1/2 m-0 rounded text-center w-4 bg-white font-black text-black">
+                          {card.manaCost}
+                        </p>
+                        {card.name} x {card.quantity}
+                      </span>
                     </li>
                   );
                 })}

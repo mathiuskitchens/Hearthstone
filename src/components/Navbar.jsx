@@ -1,7 +1,11 @@
 import React from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
+import MiniLogin from "../routes/MiniLogin";
 
 const Navbar = () => {
+  const [currentUser, setCurrentUser] = useState(1);
+
   return (
     <div className="navbar bg-base-100 fixed top-0 left-0 z-50 w-full flex justify-between">
       <div className="">
@@ -47,7 +51,10 @@ const Navbar = () => {
             className="mt-3 z-[1] p-2 shadow menu menu-sm dropdown-content bg-base-100 rounded-box w-52"
           >
             <li>
-              <Link to={`../profile/1`} className="justify-between">
+              <Link
+                to={`../profile/${currentUser}`}
+                className="justify-between"
+              >
                 Profile
                 <span className="badge">New</span>
               </Link>

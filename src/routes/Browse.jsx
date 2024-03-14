@@ -19,6 +19,7 @@ const Browse = () => {
   const [cardLimitError, setCardLimitError] = useState(false);
 
   const classNames = [
+    "Death Knight",
     "Demon Hunter",
     "Druid",
     "Hunter",
@@ -63,14 +64,24 @@ const Browse = () => {
     }
   };
 
+  // Needs lots of upgrades, pull out into own util file and add checks for legendary, return deck limit reached or not
   const checkCardLimit = (currentCard) => {
-    let cardCount = deck.filter((card) => card.id === currentCard.id).length;
-    console.log("card count: ", cardCount);
-    if (cardCount < 2) {
-      return false;
+    if (currentCard.rarityId == 5) {
+      console.log("Legendary");
+      let legendaryCardCount = deck.filter(
+        (card) => card.id === currentCard.id
+      ).length;
+      console.log("legendary card count: ", legendaryCardCount);
     } else {
-      console.log("card limit reached");
-      return true;
+      let cardCount = deck.filter((card) => card.id === currentCard.id).length;
+      // console.log("card count: ", cardCount);
+
+      if (cardCount < 2) {
+        return false;
+      } else {
+        console.log("card limit reached");
+        return true;
+      }
     }
   };
 
@@ -80,7 +91,7 @@ const Browse = () => {
 
       <div className="container">
         <h1 className="text-4xl font-bold text-center my-4 mx-8 mt-20">
-          Browse Cards
+          Deck Builder
         </h1>
         <DeckInProgress deck={deck} />
         <section
@@ -99,6 +110,7 @@ const Browse = () => {
                 Filter by Set
               </option>
               <option value="standard">All Standard</option>
+              <option value="whizbangs-workshop">Whizbang's Workshop</option>
               <option value="showdown-in-the-badlands">
                 Showdown in the Badlands
               </option>
@@ -121,7 +133,10 @@ const Browse = () => {
               <option value="all">All Classes</option>
               {classNames.map((c, index) => {
                 return (
-                  <option key={index} value={c.toLowerCase()}>
+                  <option
+                    key={index}
+                    value={c.toLowerCase().replaceAll(" ", "")}
+                  >
                     {c}
                   </option>
                 );

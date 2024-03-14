@@ -32,6 +32,11 @@ const router = createBrowserRouter([
     element: <Profile />,
     errorElement: <ErrorPage />,
   },
+  {
+    path: "/profile/undefined",
+    element: <Login />,
+    errorElement: <ErrorPage />,
+  },
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")).render(

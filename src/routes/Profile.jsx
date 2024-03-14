@@ -1,8 +1,11 @@
 import Navbar from "../components/Navbar";
 import { useState } from "react";
+import Login from "./Login";
+import MiniLogin from "./MiniLogin";
 
 const Profile = () => {
   const [activeTab, setActiveTab] = useState("cards");
+  const [token, setToken] = useState();
 
   return (
     <>
