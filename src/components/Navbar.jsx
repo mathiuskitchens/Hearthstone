@@ -1,10 +1,24 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import MiniLogin from "../routes/MiniLogin";
+import { createClient } from '@supabase/supabase-js'
+
+
+const supabase = createClient('https://nwjjrnihbewinrgzjkad.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im53ampybmloYmV3aW5yZ3pqa2FkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTkwOTIwMTUsImV4cCI6MjAzNDY2ODAxNX0.NHU064kjZs8MGgTDGh0zpLIIF4_bD-Rd0tRF2ug7S-g')
 
 const Navbar = () => {
   const [currentUser, setCurrentUser] = useState(1);
+
+  useEffect(() => {
+  checkUser()    
+
+  })
+
+  const checkUser = async () => {
+    const { data: { user } } = await supabase.auth.getUser()
+    console.log(user)
+  }
 
   return (
     <div className="navbar bg-base-100 fixed top-0 left-0 z-50 w-full flex justify-between">

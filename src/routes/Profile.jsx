@@ -1,12 +1,38 @@
 import Navbar from "../components/Navbar";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Login from "./Login";
 import MiniLogin from "./MiniLogin";
+import { createClient } from '@supabase/supabase-js'
+import { Auth } from '@supabase/auth-ui-react'
+import { ThemeSupa } from '@supabase/auth-ui-shared'
+
+const supabase = createClient('https://nwjjrnihbewinrgzjkad.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im53ampybmloYmV3aW5yZ3pqa2FkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTkwOTIwMTUsImV4cCI6MjAzNDY2ODAxNX0.NHU064kjZs8MGgTDGh0zpLIIF4_bD-Rd0tRF2ug7S-g')
+
+
 
 const Profile = () => {
+  const [session, setSession] = useState(null)
   const [activeTab, setActiveTab] = useState("cards");
-  const [token, setToken] = useState();
 
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setSession(session)
+    })
+
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((_event, session) => {
+      setSession(session)
+    })
+
+    return () => subscription.unsubscribe()
+  }, [])
+
+  if (!session) {
+    return (<Auth supabaseClient={supabase} appearance={{ theme: ThemeSupa }} />)
+  }
+  else {
+    console.log(session)
   return (
     <>
       <Navbar />
@@ -46,6 +72,12 @@ const Profile = () => {
       </div>
     </>
   );
-};
+}
 
+
+
+
+}
 export default Profile;
+
+
