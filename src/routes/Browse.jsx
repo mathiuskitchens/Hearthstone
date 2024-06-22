@@ -79,7 +79,6 @@ const Browse = () => {
       if (cardCount < 2) {
         return false;
       } else {
-        console.log("card limit reached");
         return true;
       }
     }

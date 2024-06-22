@@ -13,7 +13,7 @@ const Profile = () => {
       <div id="profile-top-container" className="flex flex-wrap mt-20">
         <div id="profile-avatar" className="avatar m-10 mx-auto md:mx-20">
           <div className=" w-64 rounded-full">
-            <img src="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg" />
+            <img src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg" />
           </div>
         </div>
         <div
