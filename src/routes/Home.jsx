@@ -22,8 +22,8 @@ export default function Home() {
           width="300px"
           className="fixed top-4 rotate-12 z-20"
         />
-        <div className="hero-content text-center fixed bottom-2 md:relative">
-          <div className="max-w-md">
+        <div className="hero-content text-center fixed md:relative">
+          <div className="max-w-md mt-28 md:mt-28">
             <h1 className="text-3xl font-bold">HS Deck Manager</h1>
             <p className="py-6">
               Welcome to the ultimate Hearthstone deck tracking hub! Unleash
@@ -32,23 +32,19 @@ export default function Home() {
               the ever-shifting halls of the Tavern!
             </p>
             <div>
-              <button className="btn btn-primary mx-2">
                 <Link
                   to={`login`}
-                  className="text-black font-bold hover:text-black"
+                  className="btn btn-primary mx-2 text-black font-bold hover:text-black"
                 >
                   Login or Signup
                 </Link>
-              </button>
-              <button className="btn btn-primary mx-2">
                 <Link
                   to={`browse`}
-                  className="text-black font-bold hover:text-black"
+                  className="btn btn-primary mx-2 text-black font-bold hover:text-black"
                 >
                   {" "}
                   Browse
                 </Link>
-              </button>
             </div>
           </div>
         </div>
