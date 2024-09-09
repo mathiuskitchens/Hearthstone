@@ -89,18 +89,18 @@ const Browse = () => {
       <Navbar />
 
       <div className="container">
-        <h1 className="text-4xl font-bold text-center my-4 mx-8 mt-20">
+        <h1 className="mx-8 my-4 mt-20 text-4xl font-bold text-center">
           Deck Builder
         </h1>
         <DeckInProgress deck={deck} />
         <section
           id="filters"
-          className="flex flex-wrap justify-around md:justify-between align-middle"
+          className="flex flex-wrap justify-around align-middle md:justify-between"
         >
-          <label id="setName" className="form-control  py-2">
+          <label id="setName" className="py-2 form-control">
             <select
               defaultValue="description"
-              className="select select-bordered select-md w-48 mx-8 my-auto"
+              className="w-48 mx-8 my-auto select select-bordered select-md"
               onChange={(e) => {
                 setExpansion(e.target.value);
               }}
@@ -109,19 +109,21 @@ const Browse = () => {
                 Filter by Set
               </option>
               <option value="standard">All Standard</option>
-              <option value="whizbangs-workshop">Whizbang's Workshop</option>
               <option value="showdown-in-the-badlands">
                 Showdown in the Badlands
               </option>
               <option value="titans">TITANS</option>
               <option value="festival-of-legends">Festival of Legends</option>
+              <option value="whizbangs-workshop">Whizbangs Workshop</option>
+              <option value="perils-in-paradise">Perils in Paradise</option>
+
             </select>
           </label>
 
-          <label id="classType" className="form-control max-w-xs py-2">
+          <label id="classType" className="max-w-xs py-2 form-control">
             <select
               defaultValue="description"
-              className="select select-bordered select-md w-48 mx-8 my-auto"
+              className="w-48 mx-8 my-auto select select-bordered select-md"
               onChange={(e) => {
                 setClassType(e.target.value);
               }}
@@ -143,10 +145,10 @@ const Browse = () => {
             </select>
           </label>
 
-          <label id="rarity" className="form-control max-w-xs py-2">
+          <label id="rarity" className="max-w-xs py-2 form-control">
             <select
               defaultValue="description"
-              className="select select-bordered select-md w-48 mx-8 my-auto"
+              className="w-48 mx-8 my-auto select select-bordered select-md"
               onChange={(e) => {
                 setRarity(e.target.value);
               }}
@@ -166,7 +168,7 @@ const Browse = () => {
           </label>
         </section>
 
-        <div className="join mx-8 my-4 block text-center lg:text-right">
+        <div className="block mx-8 my-4 text-center join lg:text-right">
           <button
             onClick={() => {
               if (page === 1) {
@@ -194,15 +196,15 @@ const Browse = () => {
         {isLoading ? (
           <BrowseSkeleton />
         ) : (
-          <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-8 p-6">
+          <div className="grid gap-8 p-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6">
             {cards.map((card, index) => {
               return (
-                <div key={index} className="card shadow-md bg-base-200 mx-auto">
+                <div key={index} className="mx-auto shadow-md card bg-base-200">
                   <div className="card">
                     <img
                       src={card.image}
                       alt={card.name}
-                      className=" w-64 md:w-56 border-transparent hover:scale-105 hover:ring-1 hover:cursor-pointer ring-yellow-500 ring-opacity-50 ring-inset hover:ring-opacity-100 transition-all duration-300 rounded-3xl sm:w-64"
+                      className="w-64 transition-all duration-300 border-transparent md:w-56 hover:scale-105 hover:ring-1 hover:cursor-pointer ring-yellow-500 ring-opacity-50 ring-inset hover:ring-opacity-100 rounded-3xl sm:w-64"
                       onClick={() => {
                         console.log(card);
                         setSelectedCard(card);
@@ -216,11 +218,11 @@ const Browse = () => {
                     >
                       <div className="modal-box">
                         <form method="dialog">
-                          <button className="btn btn-sm btn-circle btn-ghost absolute right-4 top-4">
+                          <button className="absolute btn btn-sm btn-circle btn-ghost right-4 top-4">
                             ✕
                           </button>
                         </form>
-                        <h2 className="text-center text-3xl">
+                        <h2 className="text-3xl text-center">
                           {selectedCard.name}
                         </h2>
                         <img
@@ -228,14 +230,14 @@ const Browse = () => {
                           alt={selectedCard.name}
                           className="w-3/4 mx-auto"
                         />
-                        <p className="py-4 mx-16 text-center italic">
+                        <p className="py-4 mx-16 italic text-center">
                           {selectedCard.flavorText}
                         </p>
                         <div className="modal-action">
-                          <div class="buttons-div" className="flex gap-2">
+                          <div className="flex gap-2">
                             <button
                               disabled={checkCardLimit(selectedCard)}
-                              className="btn btn-active ring-0 border-none disabled"
+                              className="border-none btn btn-active ring-0 disabled"
                               onClick={() => {
                                 // need function to check for duplicates based on card rarity and current number in deck
                                 // also need function to limit deck to 30 cards
@@ -248,7 +250,7 @@ const Browse = () => {
                                 : "Add to Deck"}
                             </button>
                             <button
-                              className="btn btn-active ring-0 border-none"
+                              className="border-none btn btn-active ring-0"
                               onClick={() => {
                                 // also need function to limit deck to 30 cards
                                 // setDeck([...deck, selectedCard]);
@@ -257,7 +259,7 @@ const Browse = () => {
                             >
                               <svg
                                 xmlns="http://www.w3.org/2000/svg"
-                                className="h-6 w-6"
+                                className="w-6 h-6"
                                 fill="none"
                                 // change fill later when has DB
                                 viewBox="0 0 24 24"
@@ -281,7 +283,7 @@ const Browse = () => {
             })}
           </div>
         )}
-        <div className="join block mb-20 mt-10 text-center">
+        <div className="block mt-10 mb-20 text-center join">
           <button
             onClick={() => {
               if (page === 1) {
@@ -314,7 +316,7 @@ const Browse = () => {
           <div role="alert" className="alert alert-error">
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              className="stroke-current shrink-0 h-6 w-6"
+              className="w-6 h-6 stroke-current shrink-0"
               fill="none"
               viewBox="0 0 24 24"
             >
