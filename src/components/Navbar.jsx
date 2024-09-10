@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 import { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { createClient } from '@supabase/supabase-js'
 import profile_img from '../images/profile_img.jpeg'
 
@@ -11,6 +11,7 @@ const supabase = createClient(
 
 const Navbar = () => {
   const [currentUser, setCurrentUser] = useState(1)
+  const navigate = useNavigate()
 
   useEffect(() => {
     checkUser()
@@ -51,17 +52,20 @@ const Navbar = () => {
               <Link to={`../Browse`}>Browse Cards</Link>
             </li>
             <li>
-              <a>Build a Deck</a>
+              <a className="justify-between">
+                Build a Deck
+                <span className="badge">WIP</span>
+              </a>
             </li>
             <li>
-              <a>Find Friends</a>
+              <a className="justify-between">
+                Find Friends
+                <span className="badge">WIP</span>
+              </a>
             </li>
           </ul>
         </div>
       </div>
-      {/* <Link to={`../Login`} className="text-xl btn btn-ghost">
-          HS DeckMaster
-        </Link> */}
 
       <div className="justify-start navbar-center">
         <a className="justify-start text-xl btn btn-ghost">HS Deck Manager</a>
@@ -90,10 +94,16 @@ const Navbar = () => {
               </Link>
             </li>
             <li>
-              <a>Settings</a>
+              <a>
+                Settings
+                <span className="badge">WIP</span>
+              </a>
             </li>
             <li>
-              <a>Logout</a>
+              <a>
+                Logout
+                <span className="badge">WIP</span>
+              </a>
             </li>
           </ul>
         </div>
