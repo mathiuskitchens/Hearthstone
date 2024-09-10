@@ -1,11 +1,12 @@
-import { useState } from "react";
+import { useState } from 'react'
 
 const DeckInProgress = ({ deck }) => {
-  const [selectedCard, setSelectedCard] = useState({});
+  const [selectedCard, setSelectedCard] = useState({})
+  const [deckName, setDeckName] = useState('Name your deck')
 
   return (
     <>
-      <div className="drawer z-50 ">
+      <div className="z-50 drawer ">
         <input id="my-drawer-4" type="checkbox" className="drawer-toggle" />
         <div className="drawer-content">
           {/* Page content here */}
@@ -25,7 +26,7 @@ const DeckInProgress = ({ deck }) => {
 
             <label
               htmlFor="my-drawer-4"
-              className="w-16 h-24 drawer-button btn btn-primary border border-black border-solid z-40 fixed lg:w-28 lg:h-40 right-0 bottom-6 mx-2 rotate-1"
+              className="fixed right-0 z-40 w-16 h-24 mx-2 border border-black border-solid drawer-button btn btn-primary lg:w-28 lg:h-40 bottom-6 rotate-1"
               onClick={() => {}}
             ></label>
           </div>
@@ -36,9 +37,16 @@ const DeckInProgress = ({ deck }) => {
             aria-label="close sidebar"
             className="drawer-overlay"
           ></label>
-          <ul className="menu p-4 w-80 min-h-full bg-base-200 text-base-content">
+          <ul className="min-h-full p-4 menu w-80 bg-base-200 text-base-content">
             <section className=" bg-base-200 menu">
-              <h2 className=" text-2xl px-2 pb-0 font-bold">Current Deck</h2>
+              <input
+                type="text"
+                value={deckName}
+                className="px-2 pb-0 text-2xl font-bold input"
+                onChange={(e) => {
+                  setDeckName(e.target.value)
+                }}
+              />
               <div className="divider divider-neutral"></div>
               <ul className="">
                 {deck.map((card, index) => {
@@ -47,18 +55,18 @@ const DeckInProgress = ({ deck }) => {
                       key={index}
                       className="flex"
                       onClick={() => {
-                        setSelectedCard(card);
-                        document.getElementById("card-details").showModal();
+                        setSelectedCard(card)
+                        document.getElementById('card-details').showModal()
                       }}
                     >
                       <span className="rounded bg-base-300 py-1 px-4 my-0.5 h-8">
-                        <p className="border p-1/2 m-0 rounded text-center w-4 bg-white font-black text-black">
+                        <p className="w-4 m-0 font-black text-center text-black bg-white border rounded p-1/2">
                           {card.manaCost}
                         </p>
                         {card.name} x {card.quantity}
                       </span>
                     </li>
-                  );
+                  )
                 })}
               </ul>
             </section>
@@ -66,7 +74,7 @@ const DeckInProgress = ({ deck }) => {
         </div>
       </div>
     </>
-  );
-};
+  )
+}
 
-export default DeckInProgress;
+export default DeckInProgress
