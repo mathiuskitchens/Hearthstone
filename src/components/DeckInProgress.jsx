@@ -1,8 +1,8 @@
-import { useState } from 'react'
+import { useState } from 'react';
 
 const DeckInProgress = ({ deck }) => {
-  const [selectedCard, setSelectedCard] = useState({})
-  const [deckName, setDeckName] = useState('Name your deck')
+  const [selectedCard, setSelectedCard] = useState({});
+  const [deckName, setDeckName] = useState('Name your deck');
 
   return (
     <>
@@ -37,14 +37,14 @@ const DeckInProgress = ({ deck }) => {
             aria-label="close sidebar"
             className="drawer-overlay"
           ></label>
-          <ul className="min-h-full p-4 menu w-80 bg-base-200 text-base-content">
+          <ul className="w-auto min-h-full p-4 menu bg-base-200 text-base-content">
             <section className=" bg-base-200 menu">
               <input
                 type="text"
                 value={deckName}
                 className="px-2 pb-0 text-2xl font-bold input"
                 onChange={(e) => {
-                  setDeckName(e.target.value)
+                  setDeckName(e.target.value);
                 }}
               />
               <div className="divider divider-neutral"></div>
@@ -55,8 +55,8 @@ const DeckInProgress = ({ deck }) => {
                       key={index}
                       className="flex"
                       onClick={() => {
-                        setSelectedCard(card)
-                        document.getElementById('card-details').showModal()
+                        setSelectedCard(card);
+                        document.getElementById('card-details').showModal();
                       }}
                     >
                       <span className="rounded bg-base-300 py-1 px-4 my-0.5 h-8">
@@ -66,7 +66,7 @@ const DeckInProgress = ({ deck }) => {
                         {card.name} x {card.quantity}
                       </span>
                     </li>
-                  )
+                  );
                 })}
               </ul>
             </section>
@@ -74,7 +74,7 @@ const DeckInProgress = ({ deck }) => {
         </div>
       </div>
     </>
-  )
-}
+  );
+};
 
-export default DeckInProgress
+export default DeckInProgress;
