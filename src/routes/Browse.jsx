@@ -1,24 +1,24 @@
-import { useEffect, useState } from 'react'
-import { getNewToken, getAllCards } from '../utils/blizzardRequests'
-import BrowseSkeleton from '../components/BrowseSkeleton'
-import Navbar from '../components/Navbar'
-import DeckInProgress from '../components/DeckInProgress'
+import { useEffect, useState } from 'react';
+import { getNewToken, getAllCards } from '../utils/blizzardRequests';
+import BrowseSkeleton from '../components/BrowseSkeleton';
+import Navbar from '../components/Navbar';
+import DeckInProgress from '../components/DeckInProgress';
 
 const Browse = () => {
-  const [allCards, setAllCards] = useState([])
-  const [cards, setCards] = useState([])
-  const [selectedCard, setSelectedCard] = useState({})
-  const [isLoading, setIsLoading] = useState(true)
-  const [page, setPage] = useState(1)
-  const [expansion, setExpansion] = useState('standard')
-  const [classType, setClassType] = useState('all')
-  const [rarity, setRarity] = useState('all')
+  const [allCards, setAllCards] = useState([]);
+  const [cards, setCards] = useState([]);
+  const [selectedCard, setSelectedCard] = useState({});
+  const [isLoading, setIsLoading] = useState(true);
+  const [page, setPage] = useState(1);
+  const [expansion, setExpansion] = useState('standard');
+  const [classType, setClassType] = useState('all');
+  const [rarity, setRarity] = useState('all');
   const [activeToken, setActiveToken] = useState(
     localStorage.getItem('hstoken')
-  )
-  const [search, setSearch] = useState('')
-  const [deck, setDeck] = useState([])
-  const [cardLimitError, setCardLimitError] = useState(false)
+  );
+  const [search, setSearch] = useState('');
+  const [deck, setDeck] = useState([]);
+  const [cardLimitError, setCardLimitError] = useState(false);
 
   const classNames = [
     'Death Knight',
@@ -32,18 +32,18 @@ const Browse = () => {
     'Shaman',
     'Warlock',
     'Warrior',
-  ]
+  ];
 
-  const rarities = ['Common', 'Rare', 'Epic', 'Legendary']
+  const rarities = ['Common', 'Rare', 'Epic', 'Legendary'];
 
   useEffect(() => {
-    fetchCards()
-  }, [page, expansion, classType, rarity, search])
+    fetchCards();
+  }, [page, expansion, classType, rarity, search]);
 
   const fetchCards = async () => {
-    setIsLoading(true)
-    await tokenCheck()
-    setTimeout(() => {}, 1000)
+    setIsLoading(true);
+    await tokenCheck();
+    setTimeout(() => {}, 1000);
     try {
       const c = await getAllCards(
         activeToken,
@@ -52,43 +52,43 @@ const Browse = () => {
         classType,
         rarity,
         search
-      )
-      setAllCards(c.data.cards)
-      setCards(c.data.cards)
-      console.log(c.data.cards)
-      setIsLoading(false)
+      );
+      setAllCards(c.data.cards);
+      setCards(c.data.cards);
+      console.log(c.data.cards);
+      setIsLoading(false);
     } catch (error) {
-      console.log('Error: ', error)
+      console.log('Error: ', error);
     }
-  }
+  };
 
   const tokenCheck = async () => {
     if (localStorage.getItem('hstoken') === null) {
-      console.log('tokenCheck failed, getting new token')
-      const token = await getNewToken()
-      setActiveToken(token)
+      console.log('tokenCheck failed, getting new token');
+      const token = await getNewToken();
+      setActiveToken(token);
     }
-  }
+  };
 
   // Needs lots of upgrades, pull out into own util file and add checks for legendary, return deck limit reached or not
   const checkCardLimit = (currentCard) => {
     if (currentCard.rarityId == 5) {
-      console.log('Legendary')
+      console.log('Legendary');
       let legendaryCardCount = deck.filter(
         (card) => card.id === currentCard.id
-      ).length
-      console.log('legendary card count: ', legendaryCardCount)
+      ).length;
+      console.log('legendary card count: ', legendaryCardCount);
     } else {
-      let cardCount = deck.filter((card) => card.id === currentCard.id).length
+      let cardCount = deck.filter((card) => card.id === currentCard.id).length;
       // console.log("card count: ", cardCount);
 
       if (cardCount < 2) {
-        return false
+        return false;
       } else {
-        return true
+        return true;
       }
     }
-  }
+  };
 
   return (
     <>
@@ -108,7 +108,7 @@ const Browse = () => {
               defaultValue="description"
               className="w-24 mx-2 my-auto md:w-36 lg:w-48 select select-bordered select-md"
               onChange={(e) => {
-                setExpansion(e.target.value)
+                setExpansion(e.target.value);
               }}
             >
               <option disabled value="description">
@@ -122,6 +122,9 @@ const Browse = () => {
               <option value="festival-of-legends">Festival of Legends</option>
               <option value="whizbangs-workshop">Whizbangs Workshop</option>
               <option value="perils-in-paradise">Perils in Paradise</option>
+              <option value="the-great-dark-beyond">
+                The Great Dark Beyond
+              </option>
             </select>
           </label>
 
@@ -130,7 +133,7 @@ const Browse = () => {
               defaultValue="description"
               className="w-24 mx-2 my-auto md:w-36 lg:w-48 select select-bordered select-md"
               onChange={(e) => {
-                setClassType(e.target.value)
+                setClassType(e.target.value);
               }}
             >
               <option disabled value="description">
@@ -145,7 +148,7 @@ const Browse = () => {
                   >
                     {c}
                   </option>
-                )
+                );
               })}
             </select>
           </label>
@@ -155,7 +158,7 @@ const Browse = () => {
               defaultValue="description"
               className="w-24 mx-2 my-auto md:w-36 lg:w-48 select select-bordered select-md"
               onChange={(e) => {
-                setRarity(e.target.value)
+                setRarity(e.target.value);
               }}
             >
               <option disabled value="description">
@@ -167,7 +170,7 @@ const Browse = () => {
                   <option key={index} value={c.toLowerCase()}>
                     {c}
                   </option>
-                )
+                );
               })}
             </select>
           </label>
@@ -179,11 +182,11 @@ const Browse = () => {
               className="grow"
               placeholder="Search"
               onChange={(e) => {
-                console.log(e.target.value)
+                console.log(e.target.value);
                 if (e.target.value !== '') {
-                  setSearch(e.target.value)
+                  setSearch(e.target.value);
                 } else {
-                  setCards(allCards)
+                  setCards(allCards);
                 }
               }}
             />
@@ -194,10 +197,10 @@ const Browse = () => {
           <button
             onClick={() => {
               if (page === 1) {
-                return
+                return;
               } else {
-                setIsLoading(true)
-                setPage(page - 1)
+                setIsLoading(true);
+                setPage(page - 1);
               }
             }}
             className="join-item btn btn-square"
@@ -207,8 +210,8 @@ const Browse = () => {
           <button className="join-item btn btn-square">{page}</button>
           <button
             onClick={() => {
-              setPage(page + 1)
-              setIsLoading(true)
+              setPage(page + 1);
+              setIsLoading(true);
             }}
             className="join-item btn"
           >
@@ -228,9 +231,9 @@ const Browse = () => {
                       alt={card.name}
                       className="w-64 transition-all duration-300 border-transparent md:w-56 hover:scale-105 hover:ring-1 hover:cursor-pointer ring-yellow-500 ring-opacity-50 ring-inset hover:ring-opacity-100 rounded-3xl sm:w-64"
                       onClick={() => {
-                        console.log(card)
-                        setSelectedCard(card)
-                        document.getElementById('card-details').showModal()
+                        console.log(card);
+                        setSelectedCard(card);
+                        document.getElementById('card-details').showModal();
                       }}
                     />
 
@@ -263,8 +266,8 @@ const Browse = () => {
                               onClick={() => {
                                 // need function to check for duplicates based on card rarity and current number in deck
                                 // also need function to limit deck to 30 cards
-                                setDeck([...deck, selectedCard])
-                                console.log(deck)
+                                setDeck([...deck, selectedCard]);
+                                console.log(deck);
                               }}
                             >
                               {checkCardLimit(selectedCard)
@@ -276,7 +279,7 @@ const Browse = () => {
                               onClick={() => {
                                 // also need function to limit deck to 30 cards
                                 // setDeck([...deck, selectedCard]);
-                                console.log(deck)
+                                console.log(deck);
                               }}
                             >
                               <svg
@@ -301,7 +304,7 @@ const Browse = () => {
                     </dialog>
                   </div>
                 </div>
-              )
+              );
             })}
           </div>
         )}
@@ -309,11 +312,11 @@ const Browse = () => {
           <button
             onClick={() => {
               if (page === 1) {
-                return
+                return;
               } else {
-                window.scrollTo({ top: 0, behavior: 'smooth' })
-                setIsLoading(true)
-                setPage(page - 1)
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+                setIsLoading(true);
+                setPage(page - 1);
               }
             }}
             className="join-item btn btn-square"
@@ -323,9 +326,9 @@ const Browse = () => {
           <button className="join-item btn btn-square">{page}</button>
           <button
             onClick={() => {
-              window.scrollTo({ top: 0, behavior: 'smooth' })
-              setPage(page + 1)
-              setIsLoading(true)
+              window.scrollTo({ top: 0, behavior: 'smooth' });
+              setPage(page + 1);
+              setIsLoading(true);
             }}
             className="join-item btn"
           >
@@ -354,7 +357,7 @@ const Browse = () => {
         </>
       )}
     </>
-  )
-}
+  );
+};
 
-export default Browse
+export default Browse;
