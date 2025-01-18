@@ -32,6 +32,6 @@ Welcome to the Hearthstone Card Collection Manager, your ultimate tool for organ
 
 ## Feedback and Support
 
-We value your feedback! If you have any suggestions, questions, or issues, please don't hesitate to reach out to our support team at [support@hearthstoneccm.com](mailto:support@hearthstoneccm.com). We're here to help and ensure that your experience with our web app is nothing short of exceptional.
+We value your feedback!  
 
 Happy collecting and deck building!
