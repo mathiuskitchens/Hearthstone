@@ -125,6 +125,9 @@ const Browse = () => {
               <option value="the-great-dark-beyond">
                 The Great Dark Beyond
               </option>
+              <option value="into-the-emerald-dream">
+                Into the Emerald Dream
+              </option>
             </select>
           </label>
 
