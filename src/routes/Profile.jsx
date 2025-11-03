@@ -1,28 +1,27 @@
 import Navbar from '../components/Navbar'
 import { useState, useEffect } from 'react'
-import { createClient } from '@supabase/supabase-js'
-import { Auth } from '@supabase/auth-ui-react'
-import { ThemeSupa } from '@supabase/auth-ui-shared'
+import { useParams } from 'react-router-dom'
+import supabase from '../utils/supabase'
 import profile_img from '../images/profile_img.jpeg'
 import { formatDate } from '../utils/utilityFunctions'
 
-const supabaseUrl = import.meta.env.VITE_SUPABASE_URL
-const supabaseKey = import.meta.env.VITE_SUPABASE_ANON_KEY
-const supabase = createClient(supabaseUrl, supabaseKey)
-
 const Profile = () => {
+  const { id } = useParams()
   const [isLoading, setIsLoading] = useState(true)
   const [session, setSession] = useState(null)
   const [activeTab, setActiveTab] = useState('cards')
-  const [user, setUser] = useState([])
-  const [memberSince, setMemberSince] = useState(user.created_at || '1/1/2023')
-
-  const userId = 'a11b4842-8d70-405a-87ba-66fce2694e7c'
+  const [user, setUser] = useState(null)
+  const [memberSince, setMemberSince] = useState('1/1/2023')
 
   async function getProfile() {
-    const result = await supabase.from('profiles').select().eq('id', userId)
+    if (!id) return
+    const result = await supabase.from('profiles').select().eq('id', id)
     console.log(result.data)
-    setUser(result.data[0])
+    const userData = result.data?.[0]
+    setUser(userData)
+    if (userData?.created_at) {
+      setMemberSince(formatDate(new Date(userData.created_at)))
+    }
   }
 
   useEffect(() => {
@@ -30,7 +29,7 @@ const Profile = () => {
     setTimeout(() => {
       setIsLoading(false)
     }, 1000)
-  }, [])
+  }, [id])
 
   return (
     <>
@@ -58,7 +57,7 @@ const Profile = () => {
             <div>
               <h1 className="text-xl font-bold">Member since {memberSince}</h1>
               <p>Favorite Class: Warlock</p>
-              <h3>Username: {user.username}</h3>
+              <h3>Username: {user?.username || 'N/A'}</h3>
             </div>
           )}
         </div>

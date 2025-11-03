@@ -49,25 +49,37 @@ const DeckInProgress = ({ deck }) => {
               />
               <div className="divider divider-neutral"></div>
               <ul className="">
-                {deck.map((card, index) => {
-                  return (
-                    <li
-                      key={index}
-                      className="flex"
-                      onClick={() => {
-                        setSelectedCard(card);
-                        document.getElementById('card-details').showModal();
-                      }}
-                    >
-                      <span className="rounded bg-base-300 py-1 px-4 my-0.5 h-8">
-                        <p className="w-4 m-0 font-black text-center text-black bg-white border rounded p-1/2">
-                          {card.manaCost}
-                        </p>
-                        {card.name} x {card.quantity}
-                      </span>
-                    </li>
-                  );
-                })}
+                {(() => {
+                  // Group cards by ID and count quantities
+                  const cardCounts = {};
+                  deck.forEach((card) => {
+                    if (cardCounts[card.id]) {
+                      cardCounts[card.id].quantity += 1;
+                    } else {
+                      cardCounts[card.id] = { ...card, quantity: 1 };
+                    }
+                  });
+                  return Object.values(cardCounts).map((card, index) => {
+                    return (
+                      <li
+                        key={card.id || index}
+                        className="flex"
+                        onClick={() => {
+                          setSelectedCard(card);
+			console.log(card)
+                          document.getElementById('card-details').showModal();
+                        }}
+                      >
+                        <span className="rounded bg-base-300 py-1 px-4 my-0.5 h-8">
+                          <p className="w-4 m-0 font-black text-center text-black bg-white border rounded p-1/2">
+                            {card.manaCost}
+                          </p>
+                          {card.name} x {card.quantity}
+                        </span>
+                      </li>
+                    );
+                  });
+                })()}
               </ul>
             </section>
           </ul>

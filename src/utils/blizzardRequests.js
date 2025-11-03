@@ -54,8 +54,9 @@ export async function getAllCards(
       const newToken = await getNewToken();
       localStorage.setItem('hstoken', newToken);
       console.log('New token: ', newToken);
-      const response = await getAllCards(newToken);
+      const response = await getAllCards(newToken, page, expansion, classType, rarity, search);
       return response;
     }
+    throw error;
   }
 }

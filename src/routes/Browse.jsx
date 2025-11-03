@@ -40,6 +40,10 @@ const Browse = () => {
     fetchCards();
   }, [page, expansion, classType, rarity, search]);
 
+  useEffect(() => {
+    setPage(1);
+  }, [search, expansion, classType, rarity]);
+
   const fetchCards = async () => {
     setIsLoading(true);
     await tokenCheck();
@@ -66,6 +70,7 @@ const Browse = () => {
     if (localStorage.getItem('hstoken') === null) {
       console.log('tokenCheck failed, getting new token');
       const token = await getNewToken();
+      localStorage.setItem('hstoken', token);
       setActiveToken(token);
     }
   };
@@ -78,6 +83,7 @@ const Browse = () => {
         (card) => card.id === currentCard.id
       ).length;
       console.log('legendary card count: ', legendaryCardCount);
+      return legendaryCardCount >= 1;
     } else {
       let cardCount = deck.filter((card) => card.id === currentCard.id).length;
       // console.log("card count: ", cardCount);
@@ -128,6 +134,13 @@ const Browse = () => {
               <option value="into-the-emerald-dream">
                 Into the Emerald Dream
               </option>
+		<option value="the-lost-city-of-ungoro"> 
+		Lost City of Un'Goro
+		</option>
+		<option value="across-the-timeways">
+			Across the Timeways
+		</option>
+
             </select>
           </label>
 
@@ -189,6 +202,7 @@ const Browse = () => {
                 if (e.target.value !== '') {
                   setSearch(e.target.value);
                 } else {
+                  setSearch('');
                   setCards(allCards);
                 }
               }}
@@ -239,78 +253,82 @@ const Browse = () => {
                         document.getElementById('card-details').showModal();
                       }}
                     />
-
-                    <dialog
-                      id="card-details"
-                      className="modal modal-bottom sm:modal-middle"
-                    >
-                      <div className="modal-box">
-                        <form method="dialog">
-                          <button className="absolute btn btn-sm btn-circle btn-ghost right-4 top-4">
-                            ✕
-                          </button>
-                        </form>
-                        <h2 className="text-3xl text-center">
-                          {selectedCard.name}
-                        </h2>
-                        <img
-                          src={selectedCard.image}
-                          alt={selectedCard.name}
-                          className="w-3/4 mx-auto"
-                        />
-                        <p className="py-4 mx-16 italic text-center">
-                          {selectedCard.flavorText}
-                        </p>
-                        <div className="modal-action">
-                          <div className="flex gap-2">
-                            <button
-                              disabled={checkCardLimit(selectedCard)}
-                              className="border-none btn btn-active ring-0 disabled"
-                              onClick={() => {
-                                // need function to check for duplicates based on card rarity and current number in deck
-                                // also need function to limit deck to 30 cards
-                                setDeck([...deck, selectedCard]);
-                                console.log(deck);
-                              }}
-                            >
-                              {checkCardLimit(selectedCard)
-                                ? 'Deck Limit Reached'
-                                : 'Add to Deck'}
-                            </button>
-                            <button
-                              className="border-none btn btn-active ring-0"
-                              onClick={() => {
-                                // also need function to limit deck to 30 cards
-                                // setDeck([...deck, selectedCard]);
-                                console.log(deck);
-                              }}
-                            >
-                              <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                className="w-6 h-6"
-                                fill="none"
-                                // change fill later when has DB
-                                viewBox="0 0 24 24"
-                                stroke="currentColor"
-                              >
-                                <path
-                                  strokeLinecap="round"
-                                  strokeLinejoin="round"
-                                  strokeWidth="2"
-                                  d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
-                                />
-                              </svg>
-                            </button>
-                          </div>
-                        </div>
-                      </div>
-                    </dialog>
                   </div>
                 </div>
               );
             })}
           </div>
         )}
+        <dialog
+          id="card-details"
+          className="modal modal-bottom sm:modal-middle"
+        >
+          <div className="modal-box">
+            <form method="dialog">
+              <button className="absolute btn btn-sm btn-circle btn-ghost right-4 top-4">
+                ✕
+              </button>
+            </form>
+            <h2 className="text-3xl text-center">
+              {selectedCard.name}
+            </h2>
+            <img
+              src={selectedCard.image}
+              alt={selectedCard.name}
+              className="w-3/4 mx-auto"
+            />
+            <p className="py-4 mx-16 italic text-center">
+              {selectedCard.flavorText}
+            </p>
+            <div className="modal-action">
+              <div className="flex gap-2">
+                <button
+                  disabled={checkCardLimit(selectedCard)}
+                  className="border-none btn btn-active ring-0 disabled"
+                  onClick={() => {
+                    // need function to check for duplicates based on card rarity and current number in deck
+                    // also need function to limit deck to 30 cards
+                    if (deck.length < 30) {
+                      setDeck([...deck, selectedCard]);
+                      console.log(deck);
+                    } else {
+                      setCardLimitError(true);
+                      setTimeout(() => setCardLimitError(false), 3000);
+                    }
+                  }}
+                >
+                  {checkCardLimit(selectedCard)
+                    ? 'Deck Limit Reached'
+                    : 'Add to Deck'}
+                </button>
+                <button
+                  className="border-none btn btn-active ring-0"
+                  onClick={() => {
+                    // also need function to limit deck to 30 cards
+                    // setDeck([...deck, selectedCard]);
+                    console.log(deck);
+                  }}
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="w-6 h-6"
+                    fill="none"
+                    // change fill later when has DB
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
+                    />
+                  </svg>
+                </button>
+              </div>
+            </div>
+          </div>
+        </dialog>
         <div className="block mt-10 mb-20 text-center join">
           <button
             onClick={() => {

@@ -2,6 +2,15 @@ import hearthstone_logo from "../images/hearthstone_logo.png";
 import { Link } from "react-router-dom";
 
 const Login = () => {
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const formData = new FormData(e.target);
+    const email = formData.get('email');
+    const password = formData.get('password');
+    console.log('Login attempt:', { email, password });
+    // TODO: Implement actual authentication
+  };
+
   return (
     <div className="hero min-h-screen w-screen bg-base-200">
       <div className="hero min-h-screen w-screen bg-base-200">
@@ -21,13 +30,14 @@ const Login = () => {
             </p>
           </div>
           <div className="card shrink-0 w-full max-w-sm shadow-2xl bg-base-100">
-            <form className="card-body">
+            <form className="card-body" onSubmit={handleSubmit}>
               <div className="form-control">
                 <label className="label">
                   <span className="label-text">Email</span>
                 </label>
                 <input
                   type="email"
+                  name="email"
                   placeholder="email"
                   className="input input-bordered"
                   required
@@ -39,6 +49,7 @@ const Login = () => {
                 </label>
                 <input
                   type="password"
+                  name="password"
                   placeholder="password"
                   className="input input-bordered"
                   required
