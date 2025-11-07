@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 export default function Home() {
   return (
     <>
-      <div className="hero min-h-screen bg-base-200">
+      <div className="hero min-h-screen bg-base-200 ">
         <img
           src="https://i.redd.it/l6bgb9eilbw11.png"
           alt=""
@@ -22,7 +22,7 @@ export default function Home() {
           width="300px"
           className="fixed top-4 rotate-12 z-20"
         />
-        <div className="hero-content text-center fixed md:relative">
+        <div className="hero-content text-center md:relative">
           <div className="max-w-md mt-28 md:mt-28">
             <h1 className="text-3xl font-bold">HS Deck Manager</h1>
             <p className="py-6">
@@ -32,19 +32,19 @@ export default function Home() {
               the ever-shifting halls of the Tavern!
             </p>
             <div>
-                <Link
-                  to={`login`}
-                  className="btn btn-primary mx-2 text-black font-bold hover:text-black"
-                >
-                  Login or Signup
-                </Link>
-                <Link
-                  to={`browse`}
-                  className="btn btn-primary mx-2 text-black font-bold hover:text-black"
-                >
-                  {" "}
-                  Browse
-                </Link>
+              <Link
+                to={`login`}
+                className="btn btn-primary mx-2 text-black font-bold hover:text-black"
+              >
+                Login or Signup
+              </Link>
+              <Link
+                to={`browse`}
+                className="btn btn-primary mx-2 text-black font-bold hover:text-black"
+              >
+                {" "}
+                Browse
+              </Link>
             </div>
           </div>
         </div>

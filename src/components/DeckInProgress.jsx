@@ -1,7 +1,6 @@
 import { useState } from 'react';
 
-const DeckInProgress = ({ deck }) => {
-  const [selectedCard, setSelectedCard] = useState({});
+const DeckInProgress = ({ deck, onCardSelect }) => {
   const [deckName, setDeckName] = useState('Name your deck');
 
   return (
@@ -19,7 +18,7 @@ const DeckInProgress = ({ deck }) => {
                 backgroundImage:
                   'url("https://youre.outof.games/media/uploads/85/cf/85cf8f45-6b87-4769-aabe-40bb0376432b/cardback_215.png")',
               }} */
-              onClick={() => {}}
+              onClick={() => { }}
             >
               Deck {deck.length}/30
             </label>
@@ -27,7 +26,7 @@ const DeckInProgress = ({ deck }) => {
             <label
               htmlFor="my-drawer-4"
               className="fixed right-0 z-40 w-16 h-24 mx-2 border border-black border-solid drawer-button btn btn-primary lg:w-28 lg:h-40 bottom-6 rotate-1"
-              onClick={() => {}}
+              onClick={() => { }}
             ></label>
           </div>
         </div>
@@ -65,8 +64,8 @@ const DeckInProgress = ({ deck }) => {
                         key={card.id || index}
                         className="flex"
                         onClick={() => {
-                          setSelectedCard(card);
-			console.log(card)
+                          onCardSelect(card);
+                          console.log(card)
                           document.getElementById('card-details').showModal();
                         }}
                       >

@@ -60,3 +60,31 @@ export async function getAllCards(
     throw error;
   }
 }
+
+
+export async function getDeckByCardIds(token, cardIds, locale = 'en_US') {
+
+  try {
+    // Convert array of card IDs to comma-separated string
+    const idsParam = Array.isArray(cardIds) ? cardIds.join(',') : cardIds;
+
+    const response = await axios({
+      method: 'get',
+      url: `https://us.api.blizzard.com/hearthstone/cards?ids=${idsParam}&locale=${locale}&hero=813`,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response;
+  } catch (error) {
+    if (error.response && error.response.status === 401) {
+      console.log('Unauthorized, refreshing token...');
+      const newToken = await getNewToken();
+      localStorage.setItem('hstoken', newToken);
+      console.log('New token: ', newToken);
+      const response = await getDeckByCardIds(newToken, cardIds, locale);
+      return response;
+    }
+    throw error;
+  }
+}

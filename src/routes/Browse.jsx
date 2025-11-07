@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { getNewToken, getAllCards } from '../utils/blizzardRequests';
+import { getNewToken, getAllCards, getDeckByCardIds } from '../utils/blizzardRequests';
 import BrowseSkeleton from '../components/BrowseSkeleton';
 import Navbar from '../components/Navbar';
 import DeckInProgress from '../components/DeckInProgress';
@@ -19,6 +19,9 @@ const Browse = () => {
   const [search, setSearch] = useState('');
   const [deck, setDeck] = useState([]);
   const [cardLimitError, setCardLimitError] = useState(false);
+
+  const cardIds = [906, 1099, 1363, 1367, 46706, 48099, 48759, 49184, 50071, 50278, 51714, 52109, 52632, 52715, 53409, 53413, 53756, 53969, 54148, 54425, 54431, 54874, 54898, 54917, 55166, 55245, 55438, 55441, 55907, 57416];
+
 
   const classNames = [
     'Death Knight',
@@ -47,7 +50,7 @@ const Browse = () => {
   const fetchCards = async () => {
     setIsLoading(true);
     await tokenCheck();
-    setTimeout(() => {}, 1000);
+    setTimeout(() => { }, 1000);
     try {
       const c = await getAllCards(
         activeToken,
@@ -64,6 +67,8 @@ const Browse = () => {
     } catch (error) {
       console.log('Error: ', error);
     }
+    // const ID = await getDeckByCardIds(activeToken, cardIds);
+    // console.log(ID)
   };
 
   const tokenCheck = async () => {
@@ -104,7 +109,7 @@ const Browse = () => {
         <h1 className="mx-8 my-4 mt-20 text-4xl font-bold text-center">
           Deck Builder
         </h1>
-        <DeckInProgress deck={deck} />
+        <DeckInProgress deck={deck} onCardSelect={setSelectedCard} />
         <section
           id="filters"
           className="flex flex-wrap justify-around align-middle"
@@ -134,12 +139,12 @@ const Browse = () => {
               <option value="into-the-emerald-dream">
                 Into the Emerald Dream
               </option>
-		<option value="the-lost-city-of-ungoro"> 
-		Lost City of Un'Goro
-		</option>
-		<option value="across-the-timeways">
-			Across the Timeways
-		</option>
+              <option value="the-lost-city-of-ungoro">
+                Lost City of Un'Goro
+              </option>
+              <option value="across-the-timeways">
+                Across the Timeways
+              </option>
 
             </select>
           </label>
