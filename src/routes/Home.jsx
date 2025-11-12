@@ -8,22 +8,22 @@ export default function Home() {
           src="https://i.redd.it/l6bgb9eilbw11.png"
           alt=""
           width="300px"
-          className="fixed top-4 -rotate-12"
+          className="fixed top-32 -rotate-12"
         />
         <img
           src="https://i.redd.it/l6bgb9eilbw11.png"
           alt=""
           width="300px"
-          className="fixed top-4 "
+          className="fixed top-32 "
         />
         <img
           src="https://i.redd.it/l6bgb9eilbw11.png"
           alt=""
           width="300px"
-          className="fixed top-4 rotate-12 z-20"
+          className="fixed top-32 rotate-12 z-20"
         />
         <div className="hero-content text-center md:relative">
-          <div className="max-w-md mt-28 md:mt-28">
+          <div className="max-w-md">
             <h1 className="text-3xl font-bold">HS Deck Manager</h1>
             <p className="py-6">
               Welcome to the ultimate Hearthstone deck tracking hub! Unleash

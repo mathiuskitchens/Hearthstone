@@ -107,7 +107,7 @@ const Browse = () => {
 
       <div className="container">
         <h1 className="mx-8 my-4 mt-20 text-4xl font-bold text-center">
-          Deck Builder
+          Browse All Cards
         </h1>
         <DeckInProgress deck={deck} onCardSelect={setSelectedCard} />
         <section

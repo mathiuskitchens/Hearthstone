@@ -20,7 +20,7 @@ const Navbar = () => {
   }
 
   return (
-    <div className="fixed top-0 left-0 z-50 flex justify-between w-full navbar bg-base-100">
+    <div className="fixed top-0 left-0 z-50 flex justify-between w-full navbar bg-base-200">
       <div className="mx-4 dropdown dropdown-start">
         <div className="dropdown">
           <div tabIndex={0} role="button" className="btn btn-ghost btn-circle">
@@ -53,10 +53,9 @@ const Navbar = () => {
               </a>
             </li>
             <li>
-              <a className="justify-between">
+              <Link to={`../Friends`} className="justify-between">
                 Find Friends
-                <span className="badge">WIP</span>
-              </a>
+              </Link>
             </li>
           </ul>
         </div>
@@ -90,9 +89,9 @@ const Navbar = () => {
             </li>
             <li>
               <Link
-		to="../settings"
-		className="justify-between"
-		>
+                to="../settings"
+                className="justify-between"
+              >
                 Settings
                 <span className="badge">WIP</span>
               </Link>
