@@ -54,7 +54,7 @@ const Navbar = () => {
             </li>
             <li>
               <Link to={`../Friends`} className="justify-between">
-                Find Friends
+                My Friends
               </Link>
             </li>
           </ul>

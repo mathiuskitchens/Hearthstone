@@ -56,8 +56,8 @@ const Profile = () => {
           ) : (
             <div>
               <h1 className="text-xl font-bold">Member since {memberSince}</h1>
-              <p>Favorite Class: Warlock</p>
-              <h3>Username: {user?.username || 'N/A'}</h3>
+              <p>Favorite Class: Mage</p>
+              <h3>Username: {user?.username || 'tennockey'}</h3>
             </div>
           )}
         </div>
