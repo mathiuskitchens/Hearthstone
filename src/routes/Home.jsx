@@ -20,7 +20,7 @@ export default function Home() {
           src="https://i.redd.it/l6bgb9eilbw11.png"
           alt=""
           width="300px"
-          className="fixed top-32 rotate-12 z-20"
+          className="fixed top-32 rotate-12 z-20 hover:scale-105 transition-all duration-200"
         />
         <div className="hero-content text-center md:relative">
           <div className="max-w-md">

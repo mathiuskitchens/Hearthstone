@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom'
 import supabase from '../utils/supabase'
 import profile_img from '../images/profile_img.jpeg'
 import { formatDate } from '../utils/utilityFunctions'
+import { sampleCards } from '../utils/sampleCards'
 
 const Profile = () => {
   const { id } = useParams()
@@ -12,6 +13,7 @@ const Profile = () => {
   const [activeTab, setActiveTab] = useState('cards')
   const [user, setUser] = useState(null)
   const [memberSince, setMemberSince] = useState('1/1/2023')
+  const cards = sampleCards
 
   async function getProfile() {
     if (!id) return
@@ -63,6 +65,7 @@ const Profile = () => {
         </div>
         {/* Favorites */}
       </div>
+      <h1 className='text-xl text-center '>Favorites</h1>
       <div id="profile-bottom-container" className="w-5/6 mx-auto my-10">
         <div role="tablist" className="tabs tabs-boxed">
           <a
@@ -90,7 +93,25 @@ const Profile = () => {
             <div className="w-5/6 h-20 mx-auto my-10 skeleton"></div>
           </>
         ) : (
-          <></>
+          <div className="grid gap-8 p-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6">
+            {cards.map((card, index) => {
+              return (
+                <div key={index} className="mx-auto shadow-md card bg-base-200">
+                  <div className="card">
+                    <img
+                      src={card.image}
+                      alt={card.name}
+                      className="w-64 transition-all duration-300 border-transparent md:w-56 hover:scale-105 hover:ring-1 hover:cursor-pointer ring-yellow-500 ring-opacity-50 ring-inset hover:ring-opacity-100 rounded-3xl sm:w-64"
+                      onClick={() => {
+                        console.log(card);
+                      }}
+                    />
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+
         )}
       </div>
     </>

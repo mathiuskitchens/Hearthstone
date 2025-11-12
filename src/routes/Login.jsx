@@ -40,7 +40,6 @@ const Login = () => {
                   name="email"
                   placeholder="email"
                   className="input input-bordered"
-                  required
                 />
               </div>
               <div className="form-control">
@@ -52,7 +51,6 @@ const Login = () => {
                   name="password"
                   placeholder="password"
                   className="input input-bordered"
-                  required
                 />
                 <label className="label">
                   <a href="#" className="label-text-alt link link-hover">
@@ -61,7 +59,7 @@ const Login = () => {
                 </label>
               </div>
               <div className="form-control mt-6">
-                <button className="btn btn-primary text-white">Login</button>
+                <Link className="btn btn-primary text-white" to={`../browse`}>Login</Link>
               </div>
               <Link to={`../browse`}>
                 <button className="btn bg-amber-400 text-white hover:bg-amber-500 w-full">
