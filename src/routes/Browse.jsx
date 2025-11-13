@@ -3,6 +3,7 @@ import { getNewToken, getAllCards, getDeckByCardIds } from '../utils/blizzardReq
 import BrowseSkeleton from '../components/BrowseSkeleton';
 import Navbar from '../components/Navbar';
 import DeckInProgress from '../components/DeckInProgress';
+import CardDisplay from '../components/CardDisplay';
 
 const Browse = () => {
   const [allCards, setAllCards] = useState([]);
@@ -246,21 +247,8 @@ const Browse = () => {
           <div className="grid gap-8 p-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6">
             {cards.map((card, index) => {
               return (
-                <div key={index} className="mx-auto shadow-md card bg-base-200">
-                  <div className="card">
-                    <img
-                      src={card.image}
-                      alt={card.name}
-                      className="w-64 transition-all duration-300 border-transparent md:w-56 hover:scale-105 hover:ring-1 hover:cursor-pointer ring-yellow-500 ring-opacity-50 ring-inset hover:ring-opacity-100 rounded-3xl sm:w-64"
-                      onClick={() => {
-                        console.log(card);
-                        setSelectedCard(card);
-                        document.getElementById('card-details').showModal();
-                      }}
-                    />
-                  </div>
-                </div>
-              );
+                <CardDisplay card={card} index={index} key={index} onCardSelect={setSelectedCard} />
+              )
             })}
           </div>
         )}
