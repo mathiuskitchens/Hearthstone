@@ -5,6 +5,7 @@ import supabase from '../utils/supabase'
 import profile_img from '../images/profile_img.jpeg'
 import { formatDate } from '../utils/utilityFunctions'
 import { sampleCards } from '../utils/sampleCards'
+import CardDisplay from '../components/CardDisplay'
 
 const Profile = () => {
   const { id } = useParams()
@@ -96,19 +97,8 @@ const Profile = () => {
           <div className="grid gap-8 p-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6">
             {cards.map((card, index) => {
               return (
-                <div key={index} className="mx-auto shadow-md card bg-base-200">
-                  <div className="card">
-                    <img
-                      src={card.image}
-                      alt={card.name}
-                      className="w-64 transition-all duration-300 border-transparent md:w-56 hover:scale-105 hover:ring-1 hover:cursor-pointer ring-yellow-500 ring-opacity-50 ring-inset hover:ring-opacity-100 rounded-3xl sm:w-64"
-                      onClick={() => {
-                        console.log(card);
-                      }}
-                    />
-                  </div>
-                </div>
-              );
+                <CardDisplay key={index} index={index} card={card} />
+              )
             })}
           </div>
 
